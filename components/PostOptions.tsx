@@ -121,7 +121,7 @@ function PostOptions({
           <ThumbsUpIcon
             className={cn("mr-1", liked && "text-[#4881c2] fill-[#4881c2]")}
           />
-          Like
+          <span className="hidden sm:inline">Like</span>
         </Button>
 
         <Button
@@ -135,17 +135,17 @@ function PostOptions({
               isCommentsOpen && "text-gray-600 fill-gray-600"
             )}
           />
-          Comment
+          <span className="hidden sm:inline">Comment</span>
         </Button>
 
         <Button variant="ghost" className="postButton">
           <Repeat2 className="mr-1" />
-          Repost
+          <span className="hidden sm:inline">Repost</span>
         </Button>
 
         <Button variant="ghost" className="postButton">
           <Send className="mr-1" />
-          Send
+          <span className="hidden sm:inline">Send</span>
         </Button>
       </div>
 

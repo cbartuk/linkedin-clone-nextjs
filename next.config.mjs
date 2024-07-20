@@ -16,6 +16,19 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "frame-src 'self' https://www.linkedin.com;",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

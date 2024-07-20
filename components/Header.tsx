@@ -31,8 +31,8 @@ function Header() {
         </form>
       </div>
 
-      <div className="flex items-center space-x-4 px-6">
-        <Link href="/" className="icon">
+      <div className="flex items-center space-x-4 md:px-6">
+        <Link href="/" className="icon hidden md:flex">
           <HomeIcon className="h-5" />
           <p>Home</p>
         </Link>
@@ -47,7 +47,7 @@ function Header() {
           <p>Jobs</p>
         </Link>
 
-        <Link href="" className="icon">
+        <Link href="" className="icon hidden md:flex">
           <MessagesSquare className="h-5" />
           <p>Messaging</p>
         </Link>

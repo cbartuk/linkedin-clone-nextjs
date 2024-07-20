@@ -4,6 +4,7 @@ import { Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IPostDocument } from "@/mongodb/models/post";
 import PostOptions from "./PostOptions";
+import { useState } from "react";
 import Image from "next/image";
 import deletePostAction from "@/actions/deletePostAction";
 import { useUser } from "@clerk/nextjs";
@@ -16,6 +17,11 @@ function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
 
   const isAuthor = user?.id === post.user.userId;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
   return (
     <div className="bg-white rounded-md border">
       <div className="p-4 flex space-x-2">
@@ -51,6 +57,7 @@ function Post({ post }: { post: IPostDocument }) {
 
           {isAuthor && (
             <Button
+            className="px-2 md:px-4 py-1 md:py-2"
               variant="outline"
               onClick={() => {
                 const promise = deletePostAction(post._id);
@@ -61,25 +68,52 @@ function Post({ post }: { post: IPostDocument }) {
                 });
               }}
             >
-              <Trash2 />
+              <Trash2
+                style={{ width: "18px", height: "18px" }}
+              />
             </Button>
           )}
         </div>
       </div>
 
-      <div className="">
+      <div className="relative">
         <p className="px-4 pb-2 mt-2">{post.text}</p>
 
-        {/* If image uploaded put it here... */}
-        {post.imageUrl && (
-          <Image
-            src={post.imageUrl}
-            alt="Post Image"
-            width={500}
-            height={500}
-            className="w-full mx-auto"
-          />
-        )}
+        {post.imageUrl ? (
+          <div className="relative cursor-pointer" onClick={handleOpenModal}>
+            <Image
+              src={post.imageUrl}
+              alt="Post Image"
+              width={500}
+              height={500}
+              className="w-full h-80 object-cover mx-auto"
+            />
+          </div>
+        ) : null}
+        {post.imageUrl
+          ? isModalOpen && (
+              <div
+                className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+                onClick={handleCloseModal}
+              >
+                <div className="relative bg-white p-4">
+                  <button
+                    className="absolute top-2 right-2 text-black bg-[#F4F2ED] rounded-full px-2"
+                    onClick={handleCloseModal}
+                  >
+                    X
+                  </button>
+                  <Image
+                    src={post.imageUrl}
+                    alt="Post Image"
+                    width={500}
+                    height={300}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            )
+          : null}
       </div>
 
       <PostOptions postId={post._id} post={post} />
